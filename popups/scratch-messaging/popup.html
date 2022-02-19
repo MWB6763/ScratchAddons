@@ -31,7 +31,7 @@
           rel="noopener noreferrer"
           target="_blank"
           href="https://scratch.mit.edu/users/{{ thisComment.author }}/"
-          >{{ thisComment.author }}</a
+          title="{{ thisComment.author }}">{{ thisComment.author }}</a
         >{{ thisComment.scratchTeam ? "*" : "" }}
         <span class="comment-time" v-show="deleteStep !== 1 && !deleted">
           · {{ commentTimeAgo }}
@@ -40,7 +40,7 @@
           </a>
         </span>
         <a @click="deleteComment()" class="delete-btn" :class="{'bold': deleteStep === 1}" v-show="!deleted"
-          >{{ deleteStep === 0 ? messages.deleteMsg : messages.deleteConfirmMsg }}
+          title="{{ deleteStep === 0 ? messages.deleteMsg : messages.deleteConfirmMsg }}">{{ deleteStep === 0 ? messages.deleteMsg : messages.deleteConfirmMsg }}
         </a>
         <bdo dir="ltr">
           <!-- prevents LTR comments from being messed up in RTL layout - not ideal, but consistent with Scratch -->
@@ -56,17 +56,17 @@
               :class="{'replying': replying}"
               :style="{'visibility': replying ? 'hidden' : 'visible'}"
               v-show="!deleted"
-              >{{ messages.replyMsg }}</a
+              title="{{ messages.replyMsg }}">{{ messages.replyMsg }}</a
             >
           </div>
         </bdo>
         <div class="reply-box-comment" v-show="replying">
           <textarea class="reply-textarea" maxlength="500" v-model="replyBoxValue"></textarea>
           <div class="reply-box-buttons">
-            <button @click="!postingComment && postComment()" class="post-button">
+            <button @click="!postingComment && postComment()" class="post-button" title="{{ postingComment ? messages.postingMsg : messages.postMsg }}">
               {{ postingComment ? messages.postingMsg : messages.postMsg }}
             </button>
-            <button @click="replying = false" v-show="!postingComment">{{ messages.cancelMsg }}</button>
+            <button @click="replying = false" v-show="!postingComment" title="{{ messages.cancelMsg }}">{{ messages.cancelMsg }}</button>
             <span class="comment-chars"> {{ replyBoxLeftMsg }}</span>
           </div>
         </div>
@@ -94,7 +94,7 @@
           <div class="message-type-details" v-show="messageTypeExtended.stMessages">
             <div class="comment" v-for="alert of stMessages">
               <span class="comment-time">{{ alert.datetime_created }}</span>
-              <a class="delete-btn" @click="dismissAlert(alert.id)">{{ uiMessages.dismissMsg }}</a>
+              <a class="delete-btn" @click="dismissAlert(alert.id)" title="{{ uiMessages.dismissMsg }}">{{ uiMessages.dismissMsg }}</a>
               <dom-element-renderer :element="alert.element"></dom-element-renderer>
             </div>
           </div>
@@ -116,7 +116,7 @@
           </div>
           <div class="message-type-details" v-show="messageTypeExtended.follows">
             <div class="username-list">
-              <a v-for="follower of follows" href="https://scratch.mit.edu/users/{{ follower }}/">{{follower}}</a>
+              <a v-for="follower of follows" href="https://scratch.mit.edu/users/{{ follower }}/" title="{{follower}}">{{follower}}</a>
             </div>
           </div>
         </div>
@@ -269,7 +269,7 @@
               rel="noreferrer noopener"
               target="_blank"
               href="https://scratch.mit.edu/users/{{ profile.username }}/"
-            >
+            title="{{ profile.username }}">
               <span v-if="profile.username === username">{{ uiMessages.yourProfileMsg }}</span>
               <span v-else>{{ othersProfile(profile.username) }}</span>
             </a>
@@ -313,7 +313,7 @@
               rel="noopener noreferrer"
               target="_blank"
               href="https://scratch.mit.edu/studios/{{ studio.id }}/"
-              >{{ studioText(studio.title) }}</a
+              title="{{ studioText(studio.title) }}">{{ studioText(studio.title) }}</a
             >
             <span class="float-right">
               <span v-show="studio.unreadComments"
@@ -361,7 +361,7 @@
               target="_blank"
               rel="noopener noreferrer"
               href="https://scratch.mit.edu/projects/{{ project.id }}/"
-              >{{ project.title }}</a
+              title="{{ project.title }}">{{ project.title }}</a
             >
             <span class="float-right">
               <div class="tooltip" v-if="project.loveCount || project.favoriteCount">
@@ -418,20 +418,20 @@
         <p v-show="messagesReady && !commentsReady">{{ uiMessages.loadingCommentsMsg }}</p>
         <p v-show="hasCustomError">
           {{ uiMessages.unknownFatalErrorMsg }}
-          <a target="_blank" :href="feedbackUrl" rel="noopener noreferrer"> {{ uiMessages.reportBugMsg }} </a>
+          <a target="_blank" :href="feedbackUrl" rel="noopener noreferrer" title="{{ uiMessages.reportBugMsg }}"> {{ uiMessages.reportBugMsg }} </a>
           <br />
           <code class="error-message">{{ error }}</code>
           (
-          <a @click="copyToClipboard(error)">{{ uiMessages.copyMsg }}</a>
+          <a @click="copyToClipboard(error)" title="{{ uiMessages.copyMsg }}">{{ uiMessages.copyMsg }}</a>
           )
         </p>
-        <button @click="reloadPage()" v-show="commentsReady && !canShowMoreMessages">
+        <button @click="reloadPage()" v-show="commentsReady && !canShowMoreMessages" title="{{ uiMessages.reloadMsg }}">
           <img class="small-icon" src="../../images/icons/reload.svg" /><span>{{ uiMessages.reloadMsg }}</span>
         </button>
         <span v-show="messagesReady && showingMessagesAmt === 0 && stMessages.length === 0" class="status-empty"
           >{{ uiMessages.noUnreadMsg }}</span
         >
-        <button @click="showAllMessages = true" v-show="canShowMoreMessages">
+        <button @click="showAllMessages = true" v-show="canShowMoreMessages" title="{{ uiMessages.showMoreMsg }}">
           <img class="small-icon" src="../../images/icons/plus.svg" /><span>{{ uiMessages.showMoreMsg }}</span>
         </button>
       </div>
@@ -439,13 +439,13 @@
 
     <!-- Bottom bar-->
     <div id="bottom-bar" v-show="messagesReady">
-      <a v-cloak @click="markAsRead()" v-show="!markedAsRead">{{ uiMessages.markAsReadMsg }}</a>
+      <a v-cloak @click="markAsRead()" v-show="!markedAsRead" title="{{ uiMessages.markAsReadmsg }}">{{ uiMessages.markAsReadMsg }}</a>
       <span v-cloak v-show="markedAsRead" class="marked-as-read"
         ><img class="small-icon" src="../../images/icons/read.svg" /> {{ uiMessages.markedAsReadMsg }}</span
       >
       <span v-cloak class="separator">|</span>
       <a v-cloak href="https://scratch.mit.edu/messages" id="open-messages"
-        >{{ uiMessages.openMessagesMsg }}<img src="../../images/icons/popout.svg" id="popout"
+        title="{{ uiMessages.openMessagesMsg }}">{{ uiMessages.openMessagesMsg }}<img src="../../images/icons/popout.svg" id="popout"
       /></a>
     </div>
   </body>
