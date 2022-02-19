@@ -113,7 +113,7 @@
     <script src="../../libraries/thirdparty/color-picker.js" type="module"></script>
     <script src="index.js" type="module"></script>
   </head>
-  <body v-cloak :class="{light: theme}">
+  <body v-cloak :class="{light: theme}" style="user-select:none">
     <div class="navbar">
       <img :src="switchPath" class="toggle" @click="sidebarToggle()" v-cloak v-show="smallMode" alt="Logo" />
       <img src="../../images/icon.svg" class="logo" alt="Logo" />
@@ -136,7 +136,7 @@
           href="https://scratchaddons.com/contributors/"
           :href="sidebarUrls.contributors"
           target="_blank"
-        >
+        title="{{ msg('credits') }}">
           <img src="../../images/icons/users.svg" />
           <span>{{ msg("credits") }} <img src="../../images/icons/popout.svg" /></span>
         </a>
@@ -146,7 +146,7 @@
           <span v-cloak>{{ msg("review") }}</span>
         </div>
         -->
-        <a v-cloak class="category category-small" href="https://scratchaddons.com/translate" target="_blank">
+        <a v-cloak class="category category-small" href="https://scratchaddons.com/translate" target="_blank" title="{{ msg('translate') }}">
           <img src="../../images/icons/translate.svg" />
           <span>{{ msg("translate") }} <img src="../../images/icons/popout.svg" /></span>
         </a>
@@ -156,7 +156,7 @@
           href="https://scratchaddons.com/feedback/"
           :href="sidebarUrls.feedback"
           target="_blank"
-        >
+        title="{{ msg('feedback') }}">
           <img src="../../images/icons/comment.svg" />
           <span>{{ msg("feedback") }} <img src="../../images/icons/popout.svg" /></span>
         </a>
@@ -185,7 +185,7 @@
               v-show="searchInput === ''"
             >
               <span>{{ msg("exploreAllAddons", [addonAmt]) }}</span>
-              <button class="large-button" @click="openFullSettings()">{{ msg("openFullSettings") }}</button>
+              <button class="large-button" @click="openFullSettings()" title="{{ msg('openFullSettings') }}">{{ msg("openFullSettings") }}</button>
             </div>
             <addon-group-header
               v-if="addon.headerAbove"
@@ -205,7 +205,7 @@
     </div>
     <div v-cloak v-show="isOpen" class="modal">
       <div class="modal-content" v-click-outside="modalClickOutside">
-        <div>
+        <div title="{{ msg('moreSettings') }}">
           <img @click="modalToggle()" class="close" alt="Logo" src="../../images/icons/close.svg" />
           <h1 class="setting-heading">{{ msg("moreSettings") }}</h1>
         </div>
@@ -213,7 +213,7 @@
           <div class="addon-body">
             <div class="addon-topbar">
               <span class="addon-name"
-                ><img src="../../images/icons/theme.svg" class="icon-type" /> {{ msg("scratchAddonsTheme") }}
+                title="{{ msg('scratchAddonsTheme') }}"><img src="../../images/icons/theme.svg" class="icon-type" /> {{ msg("scratchAddonsTheme") }}
               </span>
             </div>
             <div class="addon-settings">
@@ -222,10 +222,10 @@
                 <div class="filter-selector">
                   <div class="filter-text">{{ msg("theme") }}</div>
                   <div class="filter-options">
-                    <div class="filter-option" :class="{'sel': theme === true}" @click="setTheme(true)">
+                    <div class="filter-option" :class="{'sel': theme === true}" @click="setTheme(true)" title="{{ msg('light') }}">
                       {{ msg("light") }}
                     </div>
-                    <div class="filter-option" :class="{'sel': theme === false}" @click="setTheme(false)">
+                    <div class="filter-option" :class="{'sel': theme === false}" @click="setTheme(false)" title="{{ msg('dark') }}">
                       {{ msg("dark") }}
                     </div>
                   </div>
@@ -236,7 +236,7 @@
           <div class="addon-body">
             <div class="addon-topbar">
               <span class="addon-name"
-                ><img src="../../images/icons/import-export.svg" class="icon-type" :class="{'dark': theme === false}" />
+                title="{{ msg('exportAndImportSettings') }}"><img src="../../images/icons/import-export.svg" class="icon-type" :class="{'dark': theme === false}" />
                 {{ msg("exportAndImportSettings") }}
               </span>
             </div>
@@ -245,11 +245,11 @@
               <span class="addon-description-full">{{ msg("useBrowserSync") }}</span>
               <div class="addon-setting">
                 <div class="filter-selector">
-                  <button class="large-button" @click="exportSettings()">{{ msg("export") }}</button>
+                  <button class="large-button" @click="exportSettings()" title="{{ msg('export') }}">{{ msg("export") }}</button>
                 </div>
                 <div class="filter-selector">
-                  <button class="large-button" @click="importSettings()">{{ msg("import") }}</button>
-                  <button class="large-button hidden-button" id="confirmImport">{{ msg("confirmImport") }}</button>
+                  <button class="large-button" @click="importSettings()" title="{{ msg('import') }}">{{ msg("import") }}</button>
+                  <button class="large-button hidden-button" id="confirmImport" title="{{ msg('confirmImport') }}">{{ msg("confirmImport") }}</button>
                 </div>
               </div>
             </div>
@@ -261,7 +261,7 @@
             <a
               href="https://scratchaddons.com/changelog"
               :href="sidebarUrls.changelog"
-              title="{{ msg('changelog') }}"
+              title="v{{ version }}"
               target="_blank"
             >
               v{{ version }}</a
@@ -271,7 +271,7 @@
             <a
               href="./licenses.html?libraries=icu-message-formatter,vue,color-picker-web-component,comlink,Sora,fuse,idb"
               target="_blank"
-              >{{ msg("libraryCredits") }}</a
+              title="{{ msg('libraryCredits') }}">{{ msg("libraryCredits") }}</a
             >
           </p>
         </div>
@@ -280,8 +280,8 @@
     <div class="popup" v-cloak v-show="showPopupModal">
       <div class="label">{{ msg("settingsPagePermission", addonToEnable ? addonToEnable.name : "") }}</div>
       <div>
-        <button class="large-button" @click="openFullSettings()">{{ msg("openFullSettings") }}</button>
-        <button class="large-button" @click="hidePopup()">{{ msg("skipOpenFullSettings") }}</button>
+        <button class="large-button" @click="openFullSettings()" title="{{ msg('openFullSettings') }}">{{ msg("openFullSettings") }}</button>
+        <button class="large-button" @click="hidePopup()" title="{{ msg('skipOpenFullSettings') }}">{{ msg("skipOpenFullSettings") }}</button>
       </div>
     </div>
   </body>
