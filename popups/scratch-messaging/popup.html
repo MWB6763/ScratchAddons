@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="user-select:none">
   <head>
     <meta charset="UTF-8" />
     <title></title>
@@ -35,8 +35,8 @@
         >{{ thisComment.scratchTeam ? "*" : "" }}
         <span class="comment-time" v-show="deleteStep !== 1 && !deleted">
           · {{ commentTimeAgo }}
-          <a rel="noopener noreferrer" target="_blank" :href="commentURL">
-            <img src="../../images/icons/popout.svg" class="popout-comment" title="{{ messages.openNewTabMsg }}" />
+          <a rel="noopener noreferrer" target="_blank" :href="commentURL" title="{{ messages.openNewTabMeg }}">
+            <img src="../../images/icons/popout.svg" class="popout-comment" />
           </a>
         </span>
         <a @click="deleteComment()" class="delete-btn" :class="{'bold': deleteStep === 1}" v-show="!deleted"
