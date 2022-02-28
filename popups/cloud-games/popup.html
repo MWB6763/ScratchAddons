@@ -15,7 +15,7 @@
     <script src="../../webpages/popup-loader.js" type="module"></script>
   </head>
 
-  <body v-cloak>
+  <body v-cloak style="user-select:none">
     <div class="loading" v-show="!error && (projects.length === 0 || projects.length !== projectsChecked)">
       {{ loadingMsg }}
     </div>
